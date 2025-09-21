@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  rust-dev:
+    build:
+      context: .devcontainer
+      dockerfile: Dockerfile
+    container_name: emurate_shiren2_dev
+    volumes:
+      - .:/workspaces/emurate_shiren2:cached
+      - rust-cargo-cache:/usr/local/cargo/registry
+      - rust-target-cache:/workspaces/emurate_shiren2/target
+    working_dir: /workspaces/emurate_shiren2
+    ports:
+      - "8080:8080"
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    networks:
+      - rust-dev-network
+
+volumes:
+  rust-cargo-cache:
+    name: emurate_shiren2_cargo_cache
+  rust-target-cache:
+    name: emurate_shiren2_target_cache
+
+networks:
+  rust-dev-network:
+    name: emurate_shiren2_network
